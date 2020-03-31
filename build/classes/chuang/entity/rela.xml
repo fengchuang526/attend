@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="chuang.dao.IRelaDao">
+
+	<resultMap type="rela" id="relaMap">
+		<id property="id" column="id"/>
+		<result property="relaName" column="RELA_NAME"/>
+		<result property="relaPhone" column="RELA_PHONE"/>
+		<result property="relaAddress" column="RELA_ADDRESS"/>
+		<result property="remark" column="REMARK"/>
+	</resultMap>
+	
+	<insert id="saveRela" parameterType="rela" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO t_rela (RELA_NAME,RELA_PHONE,RELA_ADDRESS,REMARK)
+		VALUES (#{relaName},#{relaPhone},#{relaAddress},#{remark})
+	</insert>
+	
+	<select id="findAllRela" resultMap="relaMap">
+		SELECT * FROM T_RELA
+	</select>
+	
+	<update id="updateRela" parameterType="rela">
+		update t_rela
+		<set>
+			<if test="relaName != null">RELA_NAME=#{relaName},</if>
+			<if test="relaPhone != null">RELA_PHONE=#{relaPhone},</if>
+			<if test="relaAddress != null">RELA_ADDRESS=#{relaAddress},</if>
+			<if test="remark != null">REMARK=#{remark},</if>
+		</set>
+		where id=#{id}
+	</update>
+	
+</mapper>

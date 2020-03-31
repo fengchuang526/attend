@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="chuang.dao.ICateDao">
+	
+	<resultMap type="cate" id="cateMap">
+		<id column="id" property="id"/>
+		<result column="CATE_CODE" property="cateCode"/>
+		<result column="CATE_NAME" property="cateName"/>
+		<result column="CATE_DESC" property="cateDesc"/>
+		<collection property="subs" ofType="sub" column="cate_id">
+			<id column="id" property="id"/>
+			<result column="SUB_NAME" property="subName"/>
+			<result column="SUB_CODE" property="subCode"/>
+			<result column="SUB_DESC" property="subDesc"/>
+			<result column="SUB_VALUE" property="subValue"/>
+		</collection>
+	</resultMap>
+	
+	<resultMap type="cate" id="cateOnly">
+		<id column="id" property="id"/>
+		<result column="CATE_CODE" property="cateCode"/>
+		<result column="CATE_NAME" property="cateName"/>
+		<result column="CATE_DESC" property="cateDesc"/>
+	</resultMap>
+	
+	<insert id="saveCate" parameterType="cate" useGeneratedKeys="true" keyProperty="id">
+		insert into t_dd_cate (CATE_CODE,CATE_NAME,CATE_DESC) values (#{cateCode},#{cateName},#{cateDesc})
+	</insert>
+
+	<select id="getAllCate" resultMap="cateOnly">
+		select * from t_dd_cate
+	</select>
+	
+	<delete id="delCate" parameterType="Integer">
+		delete from t_dd_cate where id=#{id}
+	</delete>
+	
+	<update id="updateCateById" parameterType="cate">
+		update t_dd_cate 
+		<set>
+			<if test="cateCode!=null">CATE_CODE=#{cateCode},</if>
+			<if test="cateName!=null">CATE_NAME=#{cateName},</if>
+			<if test="cateDesc!=null">CATE_DESC=#{cateDesc}</if>
+		</set>
+		where id=#{id}
+	</update>
+
+</mapper>

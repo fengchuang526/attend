@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="chuang.dao.IEmplWorkDao">
+	
+	<resultMap type="emplWork" id="emplWorkAll">
+		<id column="id" property="id"/>
+		<result column="EMPL_ID" property="emplId"/>
+		<result column="EMPL_NAME" property="emplName"/>
+		<result column="WORK_DATE" property="workDate"/>
+		<result column="WORK_WAY" property="workWay"/>
+		<result column="WORK_PRICE" property="workPrice"/>
+		<result column="WORK_COUNT" property="workCount"/>
+		<result column="WORK_ALLOW" property="workAllow"/>
+		<result column="WORK_AMOUNT" property="workAmount"/>
+		<result column="REMARK" property="remark"/>
+		<association property="empl" javaType="empl">
+			<id property="id" column="id"/>
+			<result property="emplNo" column="EMPL_NO"/>
+			<result property="emplName" column="EMPL_NAME"/>
+			<result property="emplAddress" column="EMPL_ADDRESS"/>
+			<result property="emplEmail" column="EMPL_EMAIL"/>
+			<result property="emplPhoneOne" column="EMPL_PHONE_ONE"/>
+			<result property="emplPhoneTwo" column="EMPL_PHONE_TWO"/>
+			<result property="emplPhoneThre" column="EMPL_PHONE_THRE"/>
+			<result property="emplBirthday" column="EMPL_BIRTHDAY"/>
+			<result property="emplEntryDate" column="EMPL_ENTRY_DATE"/>
+			<result property="emplWechat" column="EMPL_WECHAT"/>
+			<result property="emplAlipay" column="EMPL_ALIPAY"/>
+			<result property="emplBankNo" column="EMPL_BANKNO"/>
+			<result property="emplStatus" column="EMPL_STATUS"/>
+			<result property="dimiDate" column="DIMI_DATE"/>
+		</association>
+	</resultMap>
+
+	<resultMap type="emplWork" id="workOnly">
+		<id column="id" property="id"/>
+		<result column="EMPL_ID" property="emplId"/>
+		<result column="EMPL_NAME" property="emplName"/>
+		<result column="WORK_DATE" property="workDate"/>
+		<result column="WORK_WAY" property="workWay"/>
+		<result column="WORK_PRICE" property="workPrice"/>
+		<result column="WORK_COUNT" property="workCount"/>
+		<result column="WORK_ALLOW" property="workAllow"/>
+		<result column="WORK_AMOUNT" property="workAmount"/>
+		<result column="REMARK" property="remark"/>
+	</resultMap>
+	
+	<insert id="saveEmplWork" useGeneratedKeys="true" parameterType="emplWork" keyProperty="id">
+		insert into t_empl_work (EMPL_ID,EMPL_NAME,WORK_DATE,WORK_WAY,WORK_PRICE,WORK_COUNT,WORK_ALLOW,
+		WORK_AMOUNT,REMARK) values (#{emplId},#{emplName},#{workDate},#{workWay},#{workPrice},#{workCount},
+		#{workAllow},#{workAmount},#{remark})
+	</insert>
+
+	<select id="getEmplWorksByDate" parameterType="Map" resultMap="workOnly">
+		SELECT * FROM T_EMPL_WORK A WHERE A.WORK_DATE &gt;= #{startDate} AND A.WORK_DATE &lt;= #{endDate}
+	</select>
+	
+	<select id="getEmplWorksByEmplId" parameterType="Integer" resultMap="workOnly">
+		SELECT * FROM T_EMPL_WORK A WHERE A.EMPL_ID=#{id}
+	</select>
+	
+	<select id="getAllEmplWorks" resultMap="workOnly">
+		SELECT * FROM T_EMPL_WORK
+	</select>
+	
+	<delete id="delEmplWork" parameterType="Integer">
+		DELETE FROM T_EMPL_WORK WHERE ID=#{id}
+	</delete>
+	
+	<update id="updateEmplWork" parameterType="emplWork">
+		UPDATE T_EMPL_WORK 
+		<set>
+			<if test="emplId!=null">EMPL_ID=#{emplId},</if>
+			<if test="emplName!=null">EMPL_NAME=#{emplName},</if>
+			<if test="workDate!=null">WORK_DATE=#{workDate},</if>
+			<if test="workWay!=null">WORK_WAY=#{workWay},</if>
+			<if test="workPrice!=null">WORK_PRICE=#{workPrice},</if>
+			<if test="workCount!=null">WORK_COUNT=#{workCount},</if>
+			<if test="workAllow!=null">WORK_ALLOW=#{workAllow},</if>
+			<if test="workAmount!=null">WORK_AMOUNT=#{workAmount},</if>
+			<if test="remark!=null">REMARK=#{remark},</if>
+		</set>
+		WHERE ID=#{id}
+	</update>
+	
+	<select id="getEmplWorkById" parameterType="Integer" resultMap="workOnly">
+		SELECT * FROM T_EMPL_WORK WHERE ID=#{id}
+	</select>
+	
+	<select id="getEmplWorksByDateAndEmplId" parameterType="Map" resultMap="emplWorkAll">
+		SELECT * FROM T_EMPL_WORK A WHERE A.WORK_DATE &gt;= #{startDate} AND A.WORK_DATE &lt;= #{endDate} AND EMPL_ID=#{emplId}		
+	</select>
+
+</mapper>

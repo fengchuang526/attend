@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="chuang.dao.IWarehouseDetailDao">
+
+	<resultMap type="warehouseDetail" id="warehouseDetailMap">
+		<id property="id" column="id"/>
+		<result property="goodsCode" column="GOODS_CODE"/>
+		<result property="detailDesc" column="DETAIL_DESC"/>
+		<result property="detailNum" column="DETAIL_NUM"/>
+		<result property="detailAmt" column="DETAIL_AMT"/>
+		<result property="detailType" column="DETAIL_TYPE"/>
+		<result property="relaPerson" column="RELA_PERSON"/>
+		<result property="detailDate" column="DETAIL_DATE"/>
+	</resultMap>
+	
+	<resultMap type="warehouseDetailAnalyDTO" id="warehouseDetailAnalyDTOMap">
+		<result property="name" column="NAME"/>
+		<result property="goodsCode" column="GOODS_CODE"/>
+		<result property="goodsCount" column="GOODS_COUNT"/>
+		<result property="detailType" column="DETAIL_TYPE"/>
+		<result property="goodsAmt" column="GOODS_AMT"/>
+	</resultMap>
+	
+	<insert id="saveWarehouseDetail" parameterType="warehouseDetail" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO t_warehouse_detail (GOODS_CODE,DETAIL_DESC,DETAIL_NUM,DETAIL_TYPE,RELA_PERSON,DETAIL_AMT,DETAIL_DATE)
+		VALUES (#{goodsCode},#{detailDesc},#{detailNum},#{detailType},#{relaPerson},#{detailAmt},#{detailDate})
+	</insert>
+	
+	<select id="findAllWarehouseDetail" resultMap="warehouseDetailMap">
+		SELECT * FROM t_warehouse_detail ORDER BY DETAIL_DATE DESC
+	</select>
+	
+	<select id="findById" parameterType="string" resultMap="warehouseDetailMap">
+		SELECT * FROM t_warehouse_detail WHERE id=#{id}
+	</select>
+	
+	<delete id="deleteWarehouseDetail" parameterType="string">
+		DELETE FROM t_warehouse_detail WHERE ID=#{id}
+	</delete>
+	
+	<select id="findWarehouseDetailByCondition" parameterType="warehouseDetail" resultMap="warehouseDetailMap">
+		SELECT * FROM t_warehouse_detail
+		<where>
+			<if test="goodsCode != null">
+				GOODS_CODE=#{goodsCode}
+			</if>
+			<if test="relaPerson != null">
+				AND RELA_PERSON=#{relaPerson}
+			</if>
+			<if test="startDate != null">
+				AND DETAIL_DATE >= #{startDate}
+			</if>
+			<if test="endDate != null">
+				<![CDATA[
+					AND DETAIL_DATE <= #{endDate}
+				]]>
+			</if>
+		</where>
+	</select>
+	
+	<select id="findWarehouseDetailGoodsAnaly" parameterType="warehouseDetailAnalyDTO" resultMap="warehouseDetailAnalyDTOMap">
+		SELECT goods_code,detail_type,SUM(detail_num) GOODS_COUNT,SUM(detail_amt) GOODS_AMT FROM t_warehouse_detail 
+		<where>
+			<if test="startDate != null and startDate != ''">
+				detail_date >= #{startDate}
+			</if>
+			<if test="endDate != null and endDate != ''">
+				AND detail_date &lt;= #{endDate}
+			</if>
+		</where>
+		GROUP BY goods_code,detail_type
+	</select>
+	
+	<select id="findWarehouseDetailRelaAnaly" parameterType="warehouseDetailAnalyDTO" resultMap="warehouseDetailAnalyDTOMap">
+		SELECT rela_person name,goods_code,detail_type,SUM(detail_num) GOODS_COUNT,SUM(detail_amt) GOODS_AMT FROM t_warehouse_detail 
+		<where>
+			<if test="startDate != null and startDate != ''">
+				detail_date >= #{startDate}
+			</if>
+			<if test="endDate != null and endDate != ''">
+				AND detail_date &lt;= #{endDate}
+			</if>
+		</where>
+		GROUP BY rela_person,goods_code,detail_type
+	</select>
+	
+</mapper>

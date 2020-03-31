@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="chuang.dao.ISubDao">
+
+	<resultMap type="sub" id="subAssMap">
+		<id column="id" property="id"/>
+		<result column="SUB_VALUE" property="subValue"/>
+		<result column="SUB_NAME" property="subName"/>
+		<result column="SUB_CODE" property="subCode"/>
+		<result column="SUB_DESC" property="subDesc"/>
+		<result column="cate_id" property="pId"/>
+		<association property="cateId" javaType="cate">
+			<id column="id" property="id"/>
+			<result column="CATE_CODE" property="cateCode"/>
+			<result column="CATE_NAME" property="cateName"/>
+			<result column="CATE_DESC" property="cateDesc"/>
+		</association>
+	</resultMap>
+	
+	<resultMap type="sub" id="subMap">
+		<id column="id" property="id"/>
+		<result column="SUB_VALUE" property="subValue"/>
+		<result column="SUB_NAME" property="subName"/>
+		<result column="SUB_CODE" property="subCode"/>
+		<result column="SUB_DESC" property="subDesc"/>
+		<result column="cate_id" property="pId"/>
+	</resultMap>
+
+	<insert id="saveSub" useGeneratedKeys="true" keyProperty="id">
+		insert into t_dd_sub (SUB_VALUE,SUB_NAME,SUB_CODE,SUB_DESC,CATE_ID) values 
+		(#{subValue},#{subName},#{subCode},#{subDesc},#{pId})
+	</insert>
+
+	<select id="getSubByCateId" parameterType="Integer" resultMap="subMap">
+		select * from t_dd_sub where cate_id=#{id}
+	</select>
+
+	<delete id="delSubByCateId" parameterType="Integer">
+		delete from t_dd_sub where cate_id=#{id}
+	</delete>
+
+	<delete id="delSubById" parameterType="Integer">
+		delete from t_dd_sub where id=#{id}
+	</delete>
+	
+	<update id="updateSub" parameterType="sub">
+		update t_dd_sub 
+		<set>
+			<if test="subCode!=null">SUB_CODE=#{subCode},</if>
+			<if test="subName!=null">SUB_NAME=#{subName},</if>
+			<if test="subDesc!=null">SUB_DESC=#{subDesc},</if>
+			<if test="subValue!=null">SUB_VALUE=#{subValue}</if>
+		</set>
+		where id=#{id}
+	</update>
+	
+	<select id="getSubsByCateCode" parameterType="String" resultMap="subAssMap">
+		select b.* from t_dd_cate a inner join t_dd_sub b on a.id=b.cate_id where a.cate_code=#{cateCode} 
+	</select>
+	
+</mapper>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="chuang.dao.IAuthDao">
+	
+	<insert id="saveAuth" parameterType="auth">
+		insert into t_auth (ROLE_ID,MENU_ID) values (#{roleId},#{menuId})
+	</insert>
+	
+	<delete id="deleAuth" parameterType="auth">
+		delete from t_auth where role_id=#{roleId} and menu_id=#{menuId}
+	</delete>
+
+</mapper>

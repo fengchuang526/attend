@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+    xmlns:aop="http://www.springframework.org/schema/aop"  
+    xmlns:tx="http://www.springframework.org/schema/tx"  
+    xmlns:context="http://www.springframework.org/schema/context"  
+    xsi:schemaLocation="http://www.springframework.org/schema/beans  
+                     http://www.springframework.org/schema/beans/spring-beans.xsd  
+                     http://www.springframework.org/schema/tx  
+                     http://www.springframework.org/schema/tx/spring-tx.xsd  
+                     http://www.springframework.org/schema/aop  
+                     http://www.springframework.org/schema/aop/spring-aop.xsd">  
+
+	<bean id="adminBiz" class="com.liren.chuang.bizs.AdminBiz">
+		<property name="adminDao">
+			<ref bean="adminDao"/>
+		</property>
+	</bean>
+  
+  	<bean id="typeBiz" class="com.liren.chuang.bizs.TypeBiz">
+  		<property name="typeDao">
+  			<ref bean="typeDao"/>
+  		</property>
+  	</bean>
+      
+    <bean id="productBiz" class="com.liren.chuang.bizs.ProductBiz">
+    	<property name="productDao">
+    		<ref bean="productDao"/>
+    	</property>
+    </bean> 
+    
+    <bean id="userBiz" class="com.liren.chuang.bizs.UserBiz">
+    	<property name="userDao">
+    		<ref bean="userDao"/>
+    	</property>
+    </bean>
+    
+    <bean id="cartBiz" class="com.liren.chuang.bizs.CartBiz">
+    	<property name="cartDao">
+    		<ref bean="cartDao"/>
+    	</property>
+    </bean>
+    
+    <bean id="evaluateBiz" class="com.liren.chuang.bizs.EvaluateBiz">
+    	<property name="evaluateDao">
+    		<ref bean="evaluateDao"/>
+    	</property>
+    </bean> 
+    
+    <!-- 
+    <bean id="myorderBiz" class="com.liren.chuang.bizs.MyOrderBiz">
+    	<property name="myorderDao">
+    		<ref bean="myorderDao"/>
+    	</property>
+    </bean> 
+     -->
+     
+    <bean id="orderinfoBiz" class="com.liren.chuang.bizs.OrderInfoBiz">
+    	<property name="orderinfoDao">
+    		<ref bean="orderInfoDao"/>
+    	</property>
+    </bean>
+    
+    <bean id="myOrderBiz" class="com.liren.chuang.bizs.MyOrderBiz">
+    	<property name="myorderDao">
+    		<ref bean="myorderDao"/>
+    	</property>
+    	<property name="orderinfoDao">
+    		<ref bean="orderInfoDao"/>
+    	</property>
+    </bean>  
+                    
+</beans>

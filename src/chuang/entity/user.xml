@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="chuang.dao.IUserDao">
+	
+	<resultMap type="user" id="userMap">
+		<id property="id" column="id"/>
+		<result property="userAccount" column="user_account"/>
+		<result property="userName" column="user_name"/>
+		<result property="userPwd" column="user_pwd"/>
+		<result property="userEmail" column="user_email"/>
+		<result property="userLoginIp" column="user_login_ip"/>
+		<result property="loginTime" column="user_time"/>
+		<result property="userAddress" column="user_address"/>
+		<result property="userPhoneOne" column="user_phone_one"/>
+		<result property="userPhoneTwo" column="user_phone_two"/>
+		<result property="userPhoneThre" column="user_phone_thre"/>
+		<result property="userStatus" column="user_status"/>
+		<association property="roleId" column="role_id" javaType="role">
+			<id property="id" column="id"/>
+			<result property="roleCode" column="role_code"/>
+			<result property="roleName" column="role_name"/>
+			<result property="isUse" column="is_use"/>
+		</association>
+	</resultMap>
+
+	<select id="getUserByUserNo" parameterType="String" resultMap="userMap">
+		select * from t_user where user_account=#{userNo}
+	</select>
+	
+	<select id="getUserByNoAndPwd" parameterType="Map" resultMap="userMap">
+		select * from t_user where user_account=#{no} and user_pwd=password(#{pwd})
+	</select>
+</mapper>

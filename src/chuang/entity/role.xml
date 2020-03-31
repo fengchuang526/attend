@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="chuang.dao.IRoleDao">
+	
+	
+	<resultMap type="role" id="roleOnly">
+		<id column="id" property="id"/>
+		<result column="role_code" property="roleCode"/>
+		<result column="role_name" property="roleName"/>
+		<result column="is_use" property="isUse"/>
+	</resultMap>
+	
+	<insert id="saveRole" parameterType="role" useGeneratedKeys="true" keyProperty="id">
+		insert into t_role (role_code,role_name,is_use) values (#{roleCode},#{roleName},#{isUse})
+	</insert>
+	
+	<update id="updateRole" parameterType="role">
+		update t_role
+		<set>
+			<if test="roleCode!=null">role_code=#{roleCode},</if>
+			<if test="roleName!=null">role_name=#{roleName},</if>
+			<if test="isUse!=null">is_use=#{isUse},</if>
+		</set>
+		where id=#{id}
+	</update>
+	
+	<delete id="deleteRole" parameterType="Integer">
+		delete from t_role where id=#{id}
+	</delete>
+	
+	<select id="getAllRoles" resultMap="roleOnly">
+		select * from t_role
+	</select>
+	
+	<select id="getRolesByStatus" parameterType="String" resultMap="roleOnly">
+		select * from t_role where is_use=#{status}
+	</select>
+
+</mapper>

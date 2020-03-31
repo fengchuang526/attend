@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+    xmlns:aop="http://www.springframework.org/schema/aop"  
+    xmlns:tx="http://www.springframework.org/schema/tx"  
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:util="http://www.springframework.org/schema/util"   
+    xsi:schemaLocation="http://www.springframework.org/schema/beans  
+                     http://www.springframework.org/schema/beans/spring-beans.xsd  
+                     http://www.springframework.org/schema/tx  
+                     http://www.springframework.org/schema/tx/spring-tx.xsd  
+                     http://www.springframework.org/schema/aop  
+                     http://www.springframework.org/schema/aop/spring-aop.xsd
+                     http://www.springframework.org/schema/util 
+                     http://www.springframework.org/schema/util/spring-util-3.1.xsd
+                     http://www.springframework.org/schema/context
+           			 http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+                     default-lazy-init="true">  
+	
+	<!-- <util:properties id="app" location="classpath:/config/spring/db.properties"/> -->
+
+	<!-- 定义受环境影响易变的变量 -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+	<property name="ignoreResourceNotFound" value="true" />
+	<property name="ignoreUnresolvablePlaceholders" value="true" />
+	<property name="locations">
+		<list>
+			<value>classpath:/config/spring/db.properties</value>
+		</list>
+	</property>
+	</bean>
+	
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${connection.driver}"></property>
+		<property name="url" value="${connection.url}"></property>
+		<property name="username" value="${connection.username}"></property>
+		<property name="password" value="${connection.password}"></property>
+	</bean>
+	
+	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource"/>
+		</property>
+		<property name="configLocation">
+			<value>classpath:/config/mybatis/Configuration.xml</value>
+		</property>
+	</bean>
+	
+	<bean id="sqlSessionFactoryTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0">
+			<ref bean="sqlSessionFactoryBean"/>
+		</constructor-arg>
+	</bean>
+
+	<bean id="dataSourceTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource">
+			<ref bean="dataSource"/>
+		</property>
+	</bean>
+	
+	<tx:annotation-driven transaction-manager="dataSourceTransactionManager"/>
+	
+	<!-- 通过扫描的模式  --> 
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"> 
+        <property name="basePackage" value="chuang.dao"/> 
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactoryBean" />
+    </bean> 
+    
+    <!-- 自动搜索@Component , @Service , @Repository等标注的类 不搜索@Controller的类 -->
+	<!-- 自动扫描组件，这里要把web下面的 controller去除，他们是在spring3-servlet.xml中配置的，如果不去除会影响事务管理的。 -->
+	<context:component-scan base-package="chuang">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+	
+</beans>

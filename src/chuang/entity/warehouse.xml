@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="chuang.dao.IWarehouseDao">
+
+	<resultMap type="warehouse" id="warehouseMap">
+		<id property="id" column="id"/>
+		<result property="goodsCode" column="GOODS_CODE"/>
+		<result property="goodsName" column="GOODS_NAME"/>
+		<result property="goodsType" column="GOODS_TYPE"/>
+		<result property="goodsNum" column="GOODS_NUM"/>
+		<result property="goodsPrice" column="GOODS_PRICE"/>
+		<result property="goodsDesc" column="GOODS_DESC"/>
+		<result property="createDate" column="CREATE_DATE"/>
+		<result property="updateDate" column="UPDATE_DATE"/>
+	</resultMap>
+	
+	<select id="findAllWareHouse" resultMap="warehouseMap">
+		select * from t_warehouse
+	</select>
+	
+	<insert id="saveWarehouse" parameterType="warehouse" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO t_warehouse (GOODS_CODE,GOODS_NAME,GOODS_TYPE,GOODS_DESC,GOODS_NUM,GOODS_PRICE)
+		VALUES (#{goodsCode},#{goodsName},#{goodsType},#{goodsDesc},#{goodsNum},#{goodsPrice})
+	</insert>
+	
+	<update id="updateWarehouse" parameterType="warehouse">
+		UPDATE t_warehouse
+		<set>
+			<if test="goodsCode != null">GOODS_CODE=#{goodsCode},</if>
+			<if test="goodsName != null">GOODS_NAME=#{goodsName},</if>
+			<if test="goodsType != null">GOODS_TYPE=#{goodsType},</if>
+			<if test="goodsDesc != null">GOODS_DESC=#{goodsDesc},</if>
+			<if test="goodsNum != null">GOODS_NUM=#{goodsNum},</if>
+			<if test="goodsPrice != null">GOODS_PRICE=#{goodsPrice},</if>
+			<if test="true">UPDATE_DATE=CURRENT_TIMESTAMP,</if>
+		</set>
+		WHERE ID=#{id}
+	</update>
+	
+	<select id="findByGoodsCode" parameterType="string" resultMap="warehouseMap">
+		SELECT * FROM t_warehouse WHERE goods_code=#{goodsCode}
+	</select>
+	
+	<update id="updateGoodsNum" parameterType="warehouse">
+		UPDATE t_warehouse SET GOODS_NUM=#{goodsNum},UPDATE_DATE=CURRENT_TIMESTAMP WHERE ID=#{id}
+		
+	</update>
+	
+</mapper>

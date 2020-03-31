@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	
+	<settings>
+        <!-- 打印查询语句 -->
+        <setting name="logImpl" value="STDOUT_LOGGING" />
+    </settings>
+
+	<typeAliases>
+		<typeAlias alias="user" type="chuang.entity.User"></typeAlias>
+		<typeAlias alias="empl" type="chuang.entity.Employee"></typeAlias>
+		<typeAlias alias="menu" type="chuang.entity.Menu"></typeAlias>
+		<typeAlias alias="role" type="chuang.entity.Role"></typeAlias>
+		<typeAlias alias="auth" type="chuang.entity.Auth"></typeAlias>
+		<typeAlias alias="cate" type="chuang.entity.DdCate"></typeAlias>
+		<typeAlias alias="sub" type="chuang.entity.DdSub"></typeAlias>
+		<typeAlias alias="emplCont" type="chuang.entity.EmplCont"></typeAlias>
+		<typeAlias alias="emplWork" type="chuang.entity.EmplWork"></typeAlias>
+		<typeAlias alias="warehouse" type="chuang.entity.Warehouse"></typeAlias>
+		<typeAlias alias="warehouseDetail" type="chuang.entity.WarehouseDetail"></typeAlias>
+		<typeAlias alias="rela" type="chuang.entity.Rela"></typeAlias>
+		<typeAlias alias="warehouseDetailAnalyDTO" type="chuang.dto.WarehouseDetailAnalyDTO"></typeAlias>
+	</typeAliases>
+
+	<mappers>
+		<mapper resource= "chuang/entity/user.xml"/>
+		<mapper resource= "chuang/entity/auth.xml"/>
+		<mapper resource= "chuang/entity/cate.xml"/>
+		<mapper resource= "chuang/entity/sub.xml"/>
+		<mapper resource= "chuang/entity/emplCont.xml"/>
+		<mapper resource= "chuang/entity/empl.xml"/>
+		<mapper resource= "chuang/entity/emplWork.xml"/>
+		<mapper resource= "chuang/entity/menu.xml"/>
+		<mapper resource= "chuang/entity/role.xml"/>
+		<mapper resource= "chuang/entity/warehouse.xml"/>
+		<mapper resource= "chuang/entity/warehouseDetail.xml"/>
+		<mapper resource= "chuang/entity/rela.xml"/>
+	</mappers>
+
+</configuration>

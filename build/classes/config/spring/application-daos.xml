@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+    xmlns:aop="http://www.springframework.org/schema/aop"  
+    xmlns:tx="http://www.springframework.org/schema/tx"  
+    xmlns:context="http://www.springframework.org/schema/context"  
+    xsi:schemaLocation="http://www.springframework.org/schema/beans  
+                     http://www.springframework.org/schema/beans/spring-beans.xsd  
+                     http://www.springframework.org/schema/tx  
+                     http://www.springframework.org/schema/tx/spring-tx.xsd  
+                     http://www.springframework.org/schema/aop  
+                     http://www.springframework.org/schema/aop/spring-aop.xsd">  
+	
+	<bean id="adminDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.liren.chuang.idaos.IAdminDao"></property>
+		<property name="sqlSessionTemplate">
+			<ref bean="sqlSessionFactoryTemplate"/>
+		</property>
+	</bean>
+	
+	<bean id="cartDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.liren.chuang.idaos.ICartDao"></property>
+		<property name="sqlSessionTemplate">
+			<ref bean="sqlSessionFactoryTemplate"/>
+		</property>
+	</bean>
+	
+	<bean id="evaluateDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.liren.chuang.idaos.IEvaluateDao"></property>
+		<property name="sqlSessionTemplate">
+			<ref bean="sqlSessionFactoryTemplate"/>
+		</property>
+	</bean>
+
+	<bean id="myorderDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.liren.chuang.idaos.IMyOrderDao"></property>
+		<property name="sqlSessionTemplate">
+			<ref bean="sqlSessionFactoryTemplate"/>
+		</property>
+	</bean>
+	
+	<bean id="orderInfoDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.liren.chuang.idaos.IOrderInfoDao"></property>
+		<property name="sqlSessionTemplate">
+			<ref bean="sqlSessionFactoryTemplate"/>
+		</property>
+	</bean>
+	
+	<bean id="productDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.liren.chuang.idaos.IProductDao"></property>
+		<property name="sqlSessionTemplate">
+			<ref bean="sqlSessionFactoryTemplate"/>
+		</property>
+	</bean>
+	
+	<bean id="typeDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.liren.chuang.idaos.ITypeDao"></property>
+		<property name="sqlSessionTemplate">
+			<ref bean="sqlSessionFactoryTemplate"/>
+		</property>
+	</bean>
+	
+	<bean id="userDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.liren.chuang.idaos.IUserDao"></property>
+		<property name="sqlSessionTemplate">
+			<ref bean="sqlSessionFactoryTemplate"/>
+		</property>
+	</bean>
+
+</beans>

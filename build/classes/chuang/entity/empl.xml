@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="chuang.dao.IEmployDao">
+	
+	<resultMap type="empl" id="emplMap">
+		<id property="id" column="id"/>
+		<result property="emplNo" column="EMPL_NO"/>
+		<result property="emplName" column="EMPL_NAME"/>
+		<result property="emplAddress" column="EMPL_ADDRESS"/>
+		<result property="emplEmail" column="EMPL_EMAIL"/>
+		<result property="emplPhoneOne" column="EMPL_PHONE_ONE"/>
+		<result property="emplPhoneTwo" column="EMPL_PHONE_TWO"/>
+		<result property="emplPhoneThre" column="EMPL_PHONE_THRE"/>
+		<result property="emplBirthday" column="EMPL_BIRTHDAY"/>
+		<result property="emplEntryDate" column="EMPL_ENTRY_DATE"/>
+		<result property="emplWechat" column="EMPL_WECHAT"/>
+		<result property="emplAlipay" column="EMPL_ALIPAY"/>
+		<result property="emplBankNo" column="EMPL_BANKNO"/>
+		<result property="emplStatus" column="EMPL_STATUS"/>
+		<result property="dimiDate" column="DIMI_DATE"/>
+	</resultMap>
+	
+	
+	<insert id="saveEmploy" parameterType="empl" useGeneratedKeys="true" keyProperty="id"> 
+		insert into t_employee (EMPL_NO,EMPL_NAME,EMPL_ADDRESS,EMPL_EMAIL,EMPL_PHONE_ONE,
+		EMPL_PHONE_TWO,EMPL_PHONE_THRE,EMPL_BIRTHDAY,EMPL_ENTRY_DATE,EMPL_WECHAT,EMPL_ALIPAY,
+		EMPL_BANKNO,EMPL_STATUS) values (#{emplNo},#{emplName},#{emplAddress},
+		#{emplEmail},#{emplPhoneOne},#{emplPhoneTwo},#{emplPhoneThre},#{emplBirthday},
+		#{emplEntryDate},#{emplWechat},#{emplAlipay},#{emplBankNo},#{emplStatus})
+	</insert>
+	
+	<select id="getAllEmplo" resultMap="emplMap">
+		select * from t_employee
+	</select>
+	
+	<select id="getEmplById" parameterType="Integer" resultMap="emplMap">
+		select * from t_employee where id=#{id}
+	</select>
+	
+	<update id="updateEmpl" parameterType="empl">
+		update t_employee 
+		<set>
+			<if test="emplName!=null">EMPL_NAME=#{emplName},</if>
+			<if test="emplAddress!=null">EMPL_ADDRESS=#{emplAddress},</if>
+			<if test="emplEmail!=null">EMPL_EMAIL=#{emplEmail},</if>
+			<if test="emplPhoneOne!=null">EMPL_PHONE_ONE=#{emplPhoneOne},</if>
+			<if test="emplPhoneTwo!=null">EMPL_PHONE_TWO=#{emplPhoneTwo},</if>
+			<if test="emplPhoneThre!=null">EMPL_PHONE_THRE=#{emplPhoneThre},</if>
+			<if test="emplBirthday!=null">EMPL_BIRTHDAY=#{emplBirthday},</if>
+			<if test="emplEntryDate!=null">EMPL_ENTRY_DATE=#{emplEntryDate},</if>
+			<if test="emplWechat!=null">EMPL_WECHAT=#{emplWechat},</if>
+			<if test="emplAlipay!=null">EMPL_ALIPAY=#{emplAlipay},</if>
+			<if test="emplBankNo!=null">EMPL_BANKNO=#{emplBankNo},</if>
+		</set>
+		where id=#{id}
+	</update>
+	
+	<update id="changeEmplStatus" parameterType="Map">
+		update t_employee set EMPL_STATUS=#{status} where id=#{id}
+	</update>
+	
+	<select id="getEmplsByStatus" parameterType="String" resultMap="emplMap">
+		select * from t_employee where EMPL_STATUS=#{status}
+	</select>
+	
+</mapper>
